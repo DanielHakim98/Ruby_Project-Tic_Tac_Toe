@@ -1,61 +1,73 @@
 class Player
-  attr_reader :name, :symbol
-  @@counter = 0
-  def initialize(name,symbol="#{name[0..2].downcase}")
+  attr_reader :sym, :total_player, :name
+  @@total_player = 0
+  def initialize(name)
     @name = name
-    @symbol = symbol
-    @@counter += 1
-  end
-  def position
-
-  end
-  def self.total_player
-    puts "Total player: #{@@counter}"
+    @@total_player += 1
+    @sym = @@total_player == 1? 'X' : 'O'
   end
 end
 
 class Board
-  @@board_array = [[0,0,0],[0,0,0],[0,0,0]]
-  def self.graphic
+  @@board_display = [['7', '8', '9'], ['4', '5', '6'],['1', '2', '3']]
+  def self.display
     puts
-    for i in 0...3
-      for j in 0...3
-        print "  #{@@board_array[i][j]}  "
+    @@board_display.each do |row|
+      puts "  |    |    |  "
+      row.each {|item| print "--#{item}--"}
+      puts
+    end
+    puts "  |    |    |  "
+    puts
+  end
+  def self.check=(target)
+    puts @@board_display.include? target
+  end
+  def self.update(target, sym)
+    @@board_display.each do |row|
+      row.each_index do |j|
+        row[j] = sym if(row[j] == target)
       end
-      puts puts
     end
   end
-
-  def self.replace (pstn,logo)
-    for i in 0...3
-      for j in 0...3
-        @@board_array[pstn[0]][pstn[1]]=logo
-      end
+  def self.check(target)
+    until target >= 1 and target <= 9
+      print "Invalid input, Please enter position 0-9: "
+      target = gets.chomp.to_i
     end
+    target
   end
 end
 
-player1 = Player.new("Daniel")
-player2 = Player.new("Lidya")
-
-pstn = Array.new
-for i in 0...2
-  print "Enter #{i+1} number for coordinate: "
-  pstn[i]= gets.chomp.to_i
-  puts pstn[i]
+def player_1()
+  Board.display
+  print "Please enter position to mark: "
+  target = gets.chomp.to_i
+  sym = 'X'
+  Board.display
+  target = Board.check(target).to_s
+  Board.update(target, sym)
+  Board.display
 end
-puts
 
-Board.replace(pstn,"x")
-Board.graphic
+def player_2()
+  name2 = gets.chomp
+  user2 = Player.new(name2)
+  Board.display
+  print "Please enter position to mark: "
+  target = gets.chomp.to_i
+  sym = 'X'
+  Board.display
+  target = Board.check(target).to_s
+  Board.update(target, sym)
+  Board.display
+end
 
-
-
-
-
-
-
-
-
+puts "Welcome to the Tic-Tac-Toe"
+enter_name()
+until game_over == 1
+  player_1()
+  player_2()
+end
 
 
