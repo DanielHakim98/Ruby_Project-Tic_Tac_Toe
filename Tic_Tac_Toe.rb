@@ -1,73 +1,85 @@
 class Player
-  attr_reader :sym, :total_player, :name
+  attr_reader :sym, :name
   @@total_player = 0
   def initialize(name)
     @name = name
     @@total_player += 1
     @sym = @@total_player == 1? 'X' : 'O'
+    puts "Your marker will be '#{sym}'."
+  end
+  def play()
+    print "\n#{name}, please enter position to mark: "
+    target = gets.chomp.to_i
+    target = Board.check(target)
+    Board.update(target, sym)
+    Board.display
+  end
+  def self.total
+    @@total_player
   end
 end
 
 class Board
-  @@board_display = [['7', '8', '9'], ['4', '5', '6'],['1', '2', '3']]
+  @@board_display = {
+    :row1 => {1 =>'1', 2 =>'2', 3 =>'3'},
+    :row2 => {4 =>'4', 5 =>'5', 6 =>'6'},
+    :row3 => {7 =>'7', 8 =>'8', 9 =>'9'}
+  }
+  @@previous_input = []
   def self.display
     puts
-    @@board_display.each do |row|
+    @@board_display.each do |key, row|
       puts "  |    |    |  "
-      row.each {|item| print "--#{item}--"}
+      row.each {|k, item| print "--#{item}--"}
       puts
     end
-    puts "  |    |    |  "
-    puts
+    puts "  |    |    |  \n"
   end
-  def self.check=(target)
-    puts @@board_display.include? target
-  end
+
   def self.update(target, sym)
-    @@board_display.each do |row|
-      row.each_index do |j|
-        row[j] = sym if(row[j] == target)
+    @@board_display.each do |key, row|
+      row.each do |k, v|
+        if(k == target)
+          row[k] = sym
+          @@previous_input.push(target)
+        end
       end
     end
   end
+
   def self.check(target)
     until target >= 1 and target <= 9
-      print "Invalid input, Please enter position 0-9: "
+      print "\nInvalid input, Please enter position 0-9: "
       target = gets.chomp.to_i
+    end
+
+    any_previous = @@previous_input.any? {|input| input == target}
+
+    while any_previous == true
+      puts "\nInvalid input! This position has been already inserted."
+      print "Please enter position available position 0-9: "
+      target = gets.chomp.to_i
+      any_previous = @@previous_input.any? {|input| input == target}
     end
     target
   end
+
 end
 
-def player_1()
-  Board.display
-  print "Please enter position to mark: "
-  target = gets.chomp.to_i
-  sym = 'X'
-  Board.display
-  target = Board.check(target).to_s
-  Board.update(target, sym)
-  Board.display
+def ask_name(number)
+  print "\nPlease enter name for player ##{number} :"
+  name = gets.chomp
 end
 
-def player_2()
-  name2 = gets.chomp
-  user2 = Player.new(name2)
-  Board.display
-  print "Please enter position to mark: "
-  target = gets.chomp.to_i
-  sym = 'X'
-  Board.display
-  target = Board.check(target).to_s
-  Board.update(target, sym)
-  Board.display
-end
+puts "-----Welcome to the Tic-Tac-Toe-----"
+player1 =Player.new(name = ask_name(Player.total + 1))
+player2 =Player.new(name = ask_name(Player.total + 1))
 
-puts "Welcome to the Tic-Tac-Toe"
-enter_name()
-until game_over == 1
-  player_1()
-  player_2()
-end
+winner = 0
+Board.display
 
+while (winner == 0)
+  player1.play
+  player2.play
+end
 

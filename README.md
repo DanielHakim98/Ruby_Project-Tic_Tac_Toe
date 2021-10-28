@@ -11,3 +11,8 @@
 * Add some functionality to update board. Might need redo all over again.
 * Some functionality can be kept. But mostly, clear understanding about the game, flow chart of the program and pseudocode is important before coding.
 ---
+28/10/21
+* Finally, most of the error handling if user gives wrong input for marker has been solved and handled properly.
+* One last funcitonality is to build condition of winners or draw is none of the users obtain straight row marks. There are 8 conditions could lead to win .
+* The way I solved it by breaking down the game into smaller pieces and solve it one by one. It's also important to know the rough flow of the overall game.
+---
