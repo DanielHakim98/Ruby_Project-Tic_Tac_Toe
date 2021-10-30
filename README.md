@@ -1,4 +1,4 @@
-# Ruby_Project-Tic_Tac_Toe
+# Ruby Project: Tic_Tac_Toe
 
 * This a project of ruby involving the use of object oriented programming.
 * I know, this project will not be easy for me but I must do it in order to complete my The Odin Project course.
@@ -23,7 +23,7 @@ Click [here]("Tic Tac Toe") to go to the replit.com to test the code.
 * Add condition to win and draw for the game.
 * The minimum functionality for the game has been completed.
 * However, some improvement can be made including
-  - [] Random first turn for the players.
-  - [] Flexibility of using different markers.
-  - [] Repeat the game (loop again) when the game has found the winner or the game is draw.
+  - [ ] Random first turn for the players.
+  - [ ] Flexibility of using different markers.
+  - [ ] Repeat the game (loop again) when the game has found the winner or the game is draw.
 ---
